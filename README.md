@@ -1,11 +1,17 @@
-Lead form for the website
+# Distributable lead form for the website
 
-Example how to use the lead form
+### How to use the lead form
 
-1. Update the `omaLeadForm.js` file with the correct URL for the API endpoint
+1. Update the form tag inside the `omaLeadForm.js` file with the correct URL for the API endpoint
+```javascript
+    const formHTML = `
+        <form action="YOUR_ENDPOINT_URL" method="POST" class="p-3 border rounded needs-validation" novalidate>
+```
 2. Deploy the `omaLeadForm.js` file to your server
-3. Add the following code to your website
+3. Add the following meta tags to the `<head>` section of your website
+4. Add the following script tag to the `<body>` section of your website and update the `src` attribute with the correct path to the `omaLeadForm.js` file
 
+### Example
 ```html
 <!doctype html>
 <html lang="en">
