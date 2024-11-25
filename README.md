@@ -2,7 +2,7 @@
 
 ### How to use the lead form
 
-1. Update the form tag inside the `omaLeadForm.js` file with the correct URL for the API endpoint
+1. Update the `<form>` tag inside the `omaLeadForm.js` file with the correct URL for the API endpoint
 ```javascript
     const formHTML = `
         <form action="YOUR_ENDPOINT_URL" method="POST" class="p-3 border rounded needs-validation" novalidate>
