@@ -1,6 +1,7 @@
 (function() {
+    const id = document.getElementsByName('lead-form-id')[0].content;
     const formHTML = `
-        <form action="http://mysite.com/endpoint" method="POST" class="p-3 border rounded needs-validation" novalidate>
+        <form action="http://mysite.com/endpoint/${id}" method="POST" class="p-3 border rounded needs-validation" novalidate>
             <div class="mb-3">
                 <label for="oma-firstName" class="form-label">First name*</label>
                 <input type="text" class="form-control" id="oma-firstName" name="firstName" required
@@ -53,7 +54,9 @@
                           placeholder="Please provide a brief description of your request"
                 ></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
         </form>
     `;
 
