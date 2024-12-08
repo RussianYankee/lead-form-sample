@@ -100,6 +100,7 @@
                 const formData = new FormData(this);
                 const actionUrl = this.action;
                 const formStatus = document.getElementById('formStatus');
+                const submitButton = this.querySelector('button[type="submit"]');
                 fetch(actionUrl, {
                     method: 'POST',
                     headers: {
@@ -125,6 +126,7 @@
                             throw new Error('Failed to submit the form');
                         }
                         formStatus.innerHTML = '<div class="alert alert-success">Form submitted successfully!</div>';
+                        submitButton.disabled = true;
                     })
                     .catch(error => {
                         console.error(error);
