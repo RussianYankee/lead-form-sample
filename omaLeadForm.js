@@ -1,7 +1,7 @@
-(function() {
+(function () {
     const id = document.getElementsByName('lead-form-id')[0].content;
     const formHTML = `
-        <form action="http://mysite.com/endpoint/${id}" method="POST" class="p-3 border rounded needs-validation" novalidate>
+        <form id="leadForm" action="http://localhost:8081/api/lead-form/${id}" method="POST" class="p-3 border rounded needs-validation" novalidate>
             <div class="mb-3">
                 <label for="oma-firstName" class="form-label">First name*</label>
                 <input type="text" class="form-control" id="oma-firstName" name="firstName" required
@@ -57,10 +57,11 @@
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
+            <div id="formStatus" class="mt-3"></div>
         </form>
     `;
 
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const formContainer = document.createElement('div');
         formContainer.innerHTML = formHTML;
         document.body.appendChild(formContainer);
@@ -89,6 +90,49 @@
         document.getElementById('oma-phone').addEventListener('input', function (e) {
             var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
             e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+        });
+
+        document.getElementById('leadForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (this.checkValidity()) {
+                const formData = new FormData(this);
+                const actionUrl = this.action;
+                const formStatus = document.getElementById('formStatus');
+                fetch(actionUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        firstName: formData.get('firstName'),
+                        lastName: formData.get('lastName'),
+                        phone: formData.get('phone'),
+                        email: formData.get('email'),
+                        address: formData.get('address'),
+                        subject: formData.get('subject'),
+                    })
+                })
+                    .then(response => {
+                        return {
+                            status: response.status,
+                            data: response.body
+                        }
+                    })
+                    .then(data => {
+                        if (data.status !== 200) {
+                            throw new Error('Failed to submit the form');
+                        }
+                        formStatus.innerHTML = '<div class="alert alert-success">Form submitted successfully!</div>';
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        formStatus.innerHTML = '<div class="alert alert-danger">There was an error submitting the form. Please try again.</div>';
+                    });
+            }
+
+            this.classList.add('was-validated');
         });
     });
 })();
